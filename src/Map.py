@@ -5,6 +5,7 @@ Desc : Define Map class and map funtions
 
 import threading
 import time
+import json
 import numpy as np
 from utiles import get_cell_neighbors_from_matrix
 from multi_threads_methods import thread_function_version_1,\
@@ -20,9 +21,19 @@ def load_map_from_json_file(json_file_path: str):
     """
     Cette fonction permet de lire une map
     """
-    print(json_file_path)
-    return np.random.randint(
-        0, 2, (DEFAULT_ROW_NUMBER, DEFAULT_COL_NUMBER))
+    file = open(json_file_path, encoding="utf8")
+
+    with file:
+        data = json.load(file)
+    return {"map":  np.matrix(data["map"]),
+
+            "dead_cell_color": data.get('dead_cell_color')
+            if data.get('dead_cell_color') is not None
+            else DEFAULT_DEAD_CELL_COLOR,
+
+            "alive_cell_color": data.get('alive_cell_color')
+            if data.get('alive_cell_color') is not None
+            else DEFAULT_ALIVE_CELL_COLOR}
 
 
 class Map:
@@ -36,15 +47,21 @@ class Map:
 
     def __init__(self, json_file_path: str = None) -> None:
 
-        self.map = np.random.randint(
-            0, 2, (DEFAULT_ROW_NUMBER, DEFAULT_COL_NUMBER)) \
-            if(json_file_path is None) \
-            else load_map_from_json_file(json_file_path)
+        if json_file_path is None:
+            self.map = np.random.randint(
+                0, 2, (DEFAULT_ROW_NUMBER, DEFAULT_COL_NUMBER)) \
+                if(json_file_path is None) \
+                else load_map_from_json_file(json_file_path)
 
-        self.dead_cell_color = DEFAULT_DEAD_CELL_COLOR
-        self.alive_cell_color = DEFAULT_ALIVE_CELL_COLOR
+            self.dead_cell_color = DEFAULT_DEAD_CELL_COLOR
+            self.alive_cell_color = DEFAULT_ALIVE_CELL_COLOR
+        else:
+            result = load_map_from_json_file(json_file_path)
+            self.map = result.get('map')
+            self.dead_cell_color = result.get('dead_cell_color')
+            self.alive_cell_color = result.get('alive_cell_color')
 
-    def version_sans_barriere(self) -> None:
+    def version_sans_barriere(self, verbose=1) -> None:
         """
         Fonction qui permet d'avancer dans le jeu
         """
@@ -58,8 +75,8 @@ class Map:
                 thrads.append(threading.Thread(
                     target=thread_function_version_1,
                     args=(x_row, y_col, self, compute_matrix, condition)))
-
-        print(self.map)
+        if(verbose == 1):
+            print(self.map)
         # lancement
         for thread in thrads:
             thread.start()
@@ -115,5 +132,9 @@ class Map:
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-    a = Map()
+    a = Map("../assets/maps/example1.json")
     a.version_avec_barriere(5)
+
+    a = Map("../assets/maps/example1.json")
+    for i in range(5):
+        a.version_sans_barriere()
