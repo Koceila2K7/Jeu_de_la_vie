@@ -61,7 +61,7 @@ class Map:
             self.dead_cell_color = result.get('dead_cell_color')
             self.alive_cell_color = result.get('alive_cell_color')
 
-    def version_sans_barriere(self, verbose=1) -> None:
+    def version_sans_barriere(self, verbose: int = 1) -> None:
         """
         Fonction qui permet d'avancer dans le jeu
         """
@@ -95,7 +95,7 @@ class Map:
         """
         return get_cell_neighbors_from_matrix(self.map, x_cord, y_cord)
 
-    def version_avec_barriere(self, nb_tour_max: int):
+    def version_avec_barriere(self, nb_tour_max: int, verbose: int = 1):
         nb_tour = {'nb': nb_tour_max}
 
         nb_threads = self.map.shape[0] * self.map.shape[1]
@@ -106,8 +106,9 @@ class Map:
             compute_matrix[:] = 0
             nb_tour["nb"] -= 1
             time.sleep(2)
-            print(self.map)
-            print("Dipslay to screen ")
+            if verbose == 1:
+                print(self.map)
+                print("Dipslay to screen ")
 
         barrier = threading.Barrier(nb_threads, action=orchestrator)
         voisin_condtion = threading.Condition()

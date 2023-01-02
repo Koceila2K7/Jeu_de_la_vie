@@ -1,7 +1,8 @@
 import sys
-import pygame
 import time
+import pygame
 from Map import Map
+
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 WINDOW_HEIGHT = 400
