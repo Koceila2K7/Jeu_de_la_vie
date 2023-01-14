@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[768],{8987:e=>{e.exports=JSON.parse('{"label":"hello","permalink":"/Jeu_de_la_vie/blog/tags/hello","allTagsPath":"/Jeu_de_la_vie/blog/tags","count":2}')}}]);
