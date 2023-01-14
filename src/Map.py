@@ -95,7 +95,11 @@ class Map:
         """
         return get_cell_neighbors_from_matrix(self.map, x_cord, y_cord)
 
-    def version_avec_barriere(self, nb_tour_max: int, verbose: int = 1):
+    def version_avec_barriere(self, nb_tour_max: int,
+                              verbose: int = 1, call_back=None):
+        """
+            cb : la fonction à appeler à chaque synchronisation de barrière
+        """
         nb_tour = {'nb': nb_tour_max}
 
         nb_threads = self.map.shape[0] * self.map.shape[1]
@@ -105,7 +109,12 @@ class Map:
         def orchestrator():
             compute_matrix[:] = 0
             nb_tour["nb"] -= 1
-            time.sleep(2)
+
+            if call_back is not None:
+                call_back(self.map)
+
+            # time.sleep(.5)
+
             if verbose == 1:
                 print(self.map)
                 print("Dipslay to screen ")
