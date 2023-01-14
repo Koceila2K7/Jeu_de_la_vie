@@ -272,6 +272,7 @@ class App(customtkinter.CTk):
         self.grid_names = self.get_map_file_names()
 
         self.select_map_menu.configure(values=self.grid_names)
+        self.select_frame_by_name('home')
 
     def lancement_de_la_grille(self):
         import threading
