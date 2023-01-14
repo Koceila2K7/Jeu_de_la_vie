@@ -8,20 +8,20 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "Le jeu de la vie",
   tagline: "Description et documentation du jeu de la vie",
-  url: "https://your-docusaurus-test-site.com",
-  baseUrl: "/",
+  url: "https://koceila2k7.github.io",
+  baseUrl: "/jeu_de_la_vie/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/paris_saclay.png",
-
+  deploymentBranch: "gh-pages",
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "paris-saclay", // Usually your GitHub org/user name.
-  projectName: "Le jeu de la vie", // Usually your repo name.
-
+  organizationName: "koceila2k7", // Usually your GitHub org/user name.
+  projectName: "jeu_de_la_vie", // Usually your repo name.
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
+  trailingSlash: false,
   i18n: {
     defaultLocale: "en",
     locales: ["en"],
